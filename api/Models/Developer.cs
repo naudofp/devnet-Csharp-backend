@@ -3,9 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace devnet_Csharp_backend.api.Models
+public class Developer : User
 {
-    public class Developer 
+    public int score { get; set; }
+    public ICollection<Course> courses { get; }
+    
+    public Developer(long id, string name, string username, string passowrd)
     {
+        this.id = id;
+        this.name = name;
+        this.username = username;
+        this.password = passowrd;
+        this.score = calculateScore();
     }
+    public int calculateScore() 
+    {	
+		int newScore = 0;
+		
+        foreach (Course course in courses) {
+			newScore += course.addScore;
+        }
+
+		return newScore;  
+	}
 }
