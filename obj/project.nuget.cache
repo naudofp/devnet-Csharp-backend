@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "wHUq0dYvfANVbo9X2usvIp1xmBREBImGjw2BFMtXsXJlJOF1EPbxobAZUwzg+EY8SHnYxCX8QF5FeRhlb1goBg==",
+  "success": true,
+  "projectFilePath": "/home/naudotech/Documentos/GitHub/devnet-Csharp-backend/devnet-Csharp-backend.csproj",
+  "expectedPackageFiles": [
+    "/home/naudotech/.nuget/packages/microsoft.extensions.apidescription.server/3.0.0/microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
+    "/home/naudotech/.nuget/packages/microsoft.openapi/1.2.3/microsoft.openapi.1.2.3.nupkg.sha512",
+    "/home/naudotech/.nuget/packages/swashbuckle.aspnetcore/6.2.3/swashbuckle.aspnetcore.6.2.3.nupkg.sha512",
+    "/home/naudotech/.nuget/packages/swashbuckle.aspnetcore.swagger/6.2.3/swashbuckle.aspnetcore.swagger.6.2.3.nupkg.sha512",
+    "/home/naudotech/.nuget/packages/swashbuckle.aspnetcore.swaggergen/6.2.3/swashbuckle.aspnetcore.swaggergen.6.2.3.nupkg.sha512",
+    "/home/naudotech/.nuget/packages/swashbuckle.aspnetcore.swaggerui/6.2.3/swashbuckle.aspnetcore.swaggerui.6.2.3.nupkg.sha512"
+  ],
+  "logs": []
+}
