@@ -8,12 +8,12 @@ public class Developer : User
     public int score { get; set; }
     public ICollection<Course> courses { get; }
     
-    public Developer(long id, string name, string username, string passowrd)
+    public Developer(long id, string name, string username, string password)
     {
         this.id = id;
         this.name = name;
         this.username = username;
-        this.password = passowrd;
+        this.password = password;
         this.score = calculateScore();
     }
     public int calculateScore() 

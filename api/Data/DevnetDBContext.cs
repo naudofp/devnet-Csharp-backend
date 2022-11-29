@@ -12,8 +12,11 @@ public class DevnetDBContext : DbContext
     public DbSet<User> user { get; set; }
     public DbSet<Course> course { get; set; }
 
-     protected override void OnModelCreating(ModelBuilder modelBuilder){
-
-            base.OnModelCreating(modelBuilder);   
-        }
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        builder.ApplyConfiguration(new UserMap());        
+        builder.ApplyConfiguration(new CourseMap());        
+        builder.ApplyConfiguration(new DeveloperMap());        
+        base.OnModelCreating(builder);   
+    }
 }
