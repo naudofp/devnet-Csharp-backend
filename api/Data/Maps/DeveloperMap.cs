@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Developer = devnet_Csharp_backend.api.Models.Developer;
 
 public class DeveloperMap : IEntityTypeConfiguration<Developer>
 {
