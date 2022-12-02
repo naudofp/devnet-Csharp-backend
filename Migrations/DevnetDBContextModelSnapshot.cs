@@ -64,8 +64,7 @@ namespace devnet_Csharp_backend.Migrations
 
                     b.Property<string>("name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("password")
                         .IsRequired()
@@ -73,8 +72,7 @@ namespace devnet_Csharp_backend.Migrations
 
                     b.Property<string>("username")
                         .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("varchar(25)");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("id");
 

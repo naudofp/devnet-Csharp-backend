@@ -7,8 +7,8 @@ namespace devnet_Csharp_backend.api.Models
 {
     public class Developer : User
     {
-        public int score { get; set; }
-        public ICollection<Course> courses { get; }
+        public int score; 
+        public List<Course> courses { get; set; }
     
         public Developer(long id, string name, string username, string password)
         {
@@ -16,7 +16,8 @@ namespace devnet_Csharp_backend.api.Models
             this.name = name;
             this.username = username;
             this.password = password;
-            this.score = calculateScore();
+            this.score = getScore();
+            this.courses = new List<Course>(); 
         }
 
         public Developer(string name, string username, string password)
@@ -26,11 +27,11 @@ namespace devnet_Csharp_backend.api.Models
             this.password = password;
         }
 
-        public int calculateScore() 
+        public int getScore() 
         {	
 		    int newScore = 0;
 		
-            foreach (Course course in courses) {
+            foreach (Course course in this.courses) {
 		    	newScore += course.addScore;
             }
 

@@ -13,6 +13,6 @@ public class Course
 
 	public int addScore { get; set; }
 
-	public ICollection<Developer> developers { get; }
+	public List<Developer> developers { get; set; }
 }
 

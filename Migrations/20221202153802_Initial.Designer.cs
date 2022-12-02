@@ -10,7 +10,7 @@ using devnet_Csharp_backend.api.Data;
 namespace devnet_Csharp_backend.Migrations
 {
     [DbContext(typeof(DevnetDBContext))]
-    [Migration("20221202044035_Initial")]
+    [Migration("20221202153802_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -66,8 +66,7 @@ namespace devnet_Csharp_backend.Migrations
 
                     b.Property<string>("name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("password")
                         .IsRequired()
@@ -75,8 +74,7 @@ namespace devnet_Csharp_backend.Migrations
 
                     b.Property<string>("username")
                         .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("varchar(25)");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("id");
 

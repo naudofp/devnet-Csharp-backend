@@ -13,17 +13,20 @@ namespace devnet_Csharp_backend.api.Services.developer
             context = _context;
         }
 
-        public async void addCourse(long idUser, long idCourse)
+        public async Task<string> addCourse(long idUser, long idCourse)
         {
-            var course = await context.course.FirstOrDefaultAsync(x => x.id == idCourse);
-            var developer = await context.developer.FirstOrDefaultAsync(x => x.id == idCourse);
+            var course = await context.course.Include(x => x.developers)
+            .AsNoTracking().SingleOrDefaultAsync(x => x.id == idCourse);
+
+            var developer = await context.developer.Include(x => x.courses)
+            .AsNoTracking().SingleOrDefaultAsync(x => x.id == idUser);
 
             if(developer == null) throw new Exception("Developer " + idUser + " was not found");
             if(course == null) throw new Exception("Course " + idCourse + " was not found");
 
-            foreach (var c in developer.courses){
-                if(c.id == course.id) throw new Exception("Course was already added");
-            }
+            developer.courses.ForEach(c => {
+                if(c.id == idCourse) throw new Exception("Course already added");
+            });
 
             course.developers.Add(developer);
             developer.courses.Add(course);
@@ -32,9 +35,11 @@ namespace devnet_Csharp_backend.api.Services.developer
             context.developer.Update(developer);
 
             await context.SaveChangesAsync();
+
+            return "Course added successfully to Developer";
         }
 
-        public async void delete(long id)
+        public async Task<string> delete(long id)
         {
             var developer = await context.developer.FirstOrDefaultAsync(x => x.id == id);
 
@@ -42,53 +47,80 @@ namespace devnet_Csharp_backend.api.Services.developer
 
             context.developer.Remove(developer);
             await context.SaveChangesAsync();
+
+            return "Developer deleted successfully";
         }
 
         public async Task<DeveloperDetailsDTO> findById(long id)
         {
-            var developer = await context.developer.FirstOrDefaultAsync(x => x.id == id);
+            var developer = await context.developer.Include(x => x.courses)
+            .AsNoTracking().SingleOrDefaultAsync(x => x.id == id);
 
             if(developer == null) throw new Exception("Developer " + id + " was not found");
 
-            DeveloperDetailsDTO dto = new DeveloperDetailsDTO(developer.id, developer.name, developer.username, developer.score);
+            DeveloperDetailsDTO dto = new DeveloperDetailsDTO(developer.id, developer.name, developer.username, developer.getScore());
             
             return dto; 
         }
 
-        public Task<List<DeveloperCardDTO>> findByUsername(string username)
+        public async Task<List<DeveloperCardDTO>> findByUsername(string username)
         {
-            throw new NotImplementedException();
-        }
-
-        public async Task<List<CourseCardDTO>> findCourses(long id)
-        {
-            var dev = await context.developer.FirstOrDefaultAsync(x => x.id == id);
-            if(dev == null) throw new Exception("Developer " + id + " was not found");
-
-            List<CourseCardDTO> dtos = new List<CourseCardDTO>();
-
-            foreach (var course in dev.courses){
-                dtos.Add(new CourseCardDTO(course.id, course.name, course.addScore));
+            var devs = context.developer.FromSqlRaw("select * from user where username like '%" + username +"%'");
+            
+            List<DeveloperCardDTO> dtos = new List<DeveloperCardDTO>();
+            foreach (var d in devs) {
+                dtos.Add(new DeveloperCardDTO(d.id, d.username));
             }
 
             return dtos;
         }
 
-        public async void rmCourse(long idUser, long idCourse)
+        public async Task<List<CourseCardDTO>> findDeveloperWithCourses(long id)
         {
-            var course = await context.course.FirstOrDefaultAsync(x => x.id == idCourse);
-            var developer = await context.developer.FirstOrDefaultAsync(x => x.id == idCourse);
+            var dev = await context.developer.Include(x => x.courses).AsNoTracking().SingleOrDefaultAsync(x => x.id == id);
+            if(dev == null) throw new Exception("Developer " + id + " was not found");
+
+            List<CourseCardDTO> dtos = new List<CourseCardDTO>();
+            
+            dev.courses.ForEach(c => dtos.Add(new CourseCardDTO(c.id, c.name, c.addScore)));
+            return dtos;
+        }
+
+        public async Task<string> rmCourse(long idUser, long idCourse)
+        {
+            var course = await context.course.Include(x => x.developers)
+            .AsNoTracking().SingleOrDefaultAsync(x => x.id == idCourse);
+
+            var developer = await context.developer.Include(x => x.courses)
+            .SingleOrDefaultAsync(x => x.id == idUser);
 
             if(developer == null) throw new Exception("Developer " + idUser + " was not found");
             if(course == null) throw new Exception("Course " + idCourse + " was not found");
 
-            course.developers.Remove(developer);
-            developer.courses.Remove(course);
+            //  DEV PROCESSING
+            var coursesDev = developer.courses;
+            developer.courses.Clear();
+            coursesDev.ForEach(c => {
 
-            context.course.Update(course);
-            context.developer.Update(developer);
+                if(c.id == idCourse) 
+                    coursesDev.Remove(c);
+                else
+                    developer.courses.Add(c);
+            });
 
+            //  COURSE PROCESSING
+            var devsCourse = course.developers;
+            course.developers.Clear();
+            devsCourse.ForEach(d => {
+
+                if(d.id == idUser) 
+                    devsCourse.Remove(d);
+                else
+                    course.developers.Add(d);
+            });
+            
             await context.SaveChangesAsync();
+            return "Course successfully deleted to Developer";
         }
 
         public async Task<string> save(DeveloperRegisterDTO dto)
@@ -98,11 +130,8 @@ namespace devnet_Csharp_backend.api.Services.developer
             Developer dev = new Developer(dto.name, dto.username, dto.password);
             await context.developer.AddAsync(dev);
             await context.SaveChangesAsync();
-            return "";
+            return "Register was successfully";
         }
 
-        public void update(DeveloperRegisterDTO dto, long id)
-        {
-        }
     }
 }

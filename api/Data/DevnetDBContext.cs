@@ -15,7 +15,6 @@ namespace devnet_Csharp_backend.api.Data
         {
             builder.Entity<User>().HasIndex(x => x.username).IsUnique(true);
         
-            builder.ApplyConfiguration(new UserMap());
             builder.ApplyConfiguration(new CourseMap());        
             builder.ApplyConfiguration(new DeveloperMap());        
             base.OnModelCreating(builder);   
