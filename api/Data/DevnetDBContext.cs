@@ -1,23 +1,24 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Developer = devnet_Csharp_backend.api.Models.Developer;
 
-public class DevnetDBContext : DbContext
+namespace devnet_Csharp_backend.api.Data 
 {
-    public DevnetDBContext(DbContextOptions<DevnetDBContext> options) : base(options) {}
-
-    public DbSet<Developer> developer { get; set; }
-    public DbSet<User> user { get; set; }
-    public DbSet<Course> course { get; set; }
-
-    protected override void OnModelCreating(ModelBuilder builder)
+    public class DevnetDBContext : DbContext
     {
-        builder.ApplyConfiguration(new UserMap());        
-        builder.ApplyConfiguration(new CourseMap());        
-        builder.ApplyConfiguration(new DeveloperMap());        
-        base.OnModelCreating(builder);   
+        public DevnetDBContext(DbContextOptions<DevnetDBContext> options) : base(options) {}
+
+        public DbSet<Developer> developer { get; set; }
+        public DbSet<User> user { get; set; }
+        public DbSet<Course> course { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<User>().HasIndex(x => x.username).IsUnique(true);
+        
+            builder.ApplyConfiguration(new UserMap());
+            builder.ApplyConfiguration(new CourseMap());        
+            builder.ApplyConfiguration(new DeveloperMap());        
+            base.OnModelCreating(builder);   
+        }
     }
 }

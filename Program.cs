@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using devnet_Csharp_backend.api.Services.developer;
+using devnet_Csharp_backend.api.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<DeveloperService, DeveloperServiceImpl>();
+
 
 var app = builder.Build();
 

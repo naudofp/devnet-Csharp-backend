@@ -41,8 +41,7 @@ namespace devnet_Csharp_backend.Migrations
                     password = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Discriminator = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    score = table.Column<int>(type: "int", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -79,6 +78,12 @@ namespace devnet_Csharp_backend.Migrations
                 name: "IX_CourseDeveloper_developersid",
                 table: "CourseDeveloper",
                 column: "developersid");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_user_username",
+                table: "user",
+                column: "username",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

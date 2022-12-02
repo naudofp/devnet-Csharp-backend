@@ -18,6 +18,14 @@ namespace devnet_Csharp_backend.api.Models
             this.password = password;
             this.score = calculateScore();
         }
+
+        public Developer(string name, string username, string password)
+        {
+            this.name = name;
+            this.username = username;
+            this.password = password;
+        }
+
         public int calculateScore() 
         {	
 		    int newScore = 0;

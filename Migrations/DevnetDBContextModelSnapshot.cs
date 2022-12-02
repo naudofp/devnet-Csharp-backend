@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using devnet_Csharp_backend.api.Data;
 
 #nullable disable
 
@@ -73,22 +74,21 @@ namespace devnet_Csharp_backend.Migrations
                     b.Property<string>("username")
                         .IsRequired()
                         .HasMaxLength(25)
-                        .IsUnicode(true)
                         .HasColumnType("varchar(25)");
 
                     b.HasKey("id");
+
+                    b.HasIndex("username")
+                        .IsUnique();
 
                     b.ToTable("user");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("User");
                 });
 
-            modelBuilder.Entity("Developer", b =>
+            modelBuilder.Entity("devnet_Csharp_backend.api.Models.Developer", b =>
                 {
                     b.HasBaseType("User");
-
-                    b.Property<int>("score")
-                        .HasColumnType("int");
 
                     b.HasDiscriminator().HasValue("Developer");
                 });
@@ -101,7 +101,7 @@ namespace devnet_Csharp_backend.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Developer", null)
+                    b.HasOne("devnet_Csharp_backend.api.Models.Developer", null)
                         .WithMany()
                         .HasForeignKey("developersid")
                         .OnDelete(DeleteBehavior.Cascade)
