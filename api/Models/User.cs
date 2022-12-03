@@ -4,10 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-public abstract class User
+namespace devnet_Csharp_backend.api.Models
 {
-    public long id { get; set; }
-    public string name { get; set; }
-    public string username { get; set; }
-    public string password { get; set; }
+    public abstract class User
+    {
+        public long id { get; set; }
+        public string name { get; set; }
+        public string username { get; set; }
+        public string password { get; set; }
+    }
 }
