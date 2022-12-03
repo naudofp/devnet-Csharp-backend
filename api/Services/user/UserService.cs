@@ -7,6 +7,6 @@ namespace devnet_Csharp_backend.api.Services.User
 {
 public interface UserService
 {
-    UserHolderDTO login(UserLoginDTO dto);
+    Task<UserHolderDTO> login(UserLoginDTO dto);
 }    
 }

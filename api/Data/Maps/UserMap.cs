@@ -1,4 +1,5 @@
 ﻿using System;
+using devnet_Csharp_backend.api.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

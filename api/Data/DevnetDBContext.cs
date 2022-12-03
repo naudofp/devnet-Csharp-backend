@@ -1,3 +1,4 @@
+using devnet_Csharp_backend.api.Models;
 using Microsoft.EntityFrameworkCore;
 using Developer = devnet_Csharp_backend.api.Models.Developer;
 
