@@ -13,30 +13,15 @@ namespace devnet_Csharp_backend.api.Services.developer
             context = _context;
         }
 
-        public async Task<string> addCourse(long idUser, long idCourse)
+
+        public async Task<string> save(DeveloperRegisterDTO dto)
         {
-            var course = await context.course.Include(x => x.developers)
-            .AsNoTracking().SingleOrDefaultAsync(x => x.id == idCourse);
+            if(context.developer.Any(x => x.username == dto.username)) throw new Exception("Username already registered");
+            Developer dev = new Developer(dto.name, dto.username, dto.password);
 
-            var developer = await context.developer.Include(x => x.courses)
-            .AsNoTracking().SingleOrDefaultAsync(x => x.id == idUser);
-
-            if(developer == null) throw new Exception("Developer " + idUser + " was not found");
-            if(course == null) throw new Exception("Course " + idCourse + " was not found");
-
-            developer.courses.ForEach(c => {
-                if(c.id == idCourse) throw new Exception("Course already added");
-            });
-
-            course.developers.Add(developer);
-            developer.courses.Add(course);
-
-            context.course.Update(course);
-            context.developer.Update(developer);
-
+            await context.developer.AddAsync(dev);
             await context.SaveChangesAsync();
-
-            return "Course added successfully to Developer";
+            return "Register was successfully";
         }
 
         public async Task<string> delete(long id)
@@ -65,7 +50,7 @@ namespace devnet_Csharp_backend.api.Services.developer
 
         public async Task<List<DeveloperCardDTO>> findByUsername(string username)
         {
-            var devs = context.developer.FromSqlRaw("select * from user where username like '%" + username +"%'");
+            var devs = context.developer.FromSqlRaw($"select * from user where username like '%{username}%'");
             
             List<DeveloperCardDTO> dtos = new List<DeveloperCardDTO>();
             foreach (var d in devs) {
@@ -84,6 +69,32 @@ namespace devnet_Csharp_backend.api.Services.developer
             
             dev.courses.ForEach(c => dtos.Add(new CourseCardDTO(c.id, c.name, c.addScore)));
             return dtos;
+        }
+
+        public async Task<string> addCourse(long idUser, long idCourse)
+        {
+            var course = await context.course.Include(x => x.developers)
+            .AsNoTracking().SingleOrDefaultAsync(x => x.id == idCourse);
+
+            var developer = await context.developer.Include(x => x.courses)
+            .AsNoTracking().SingleOrDefaultAsync(x => x.id == idUser);
+
+            if(developer == null) throw new Exception("Developer " + idUser + " was not found");
+            if(course == null) throw new Exception("Course " + idCourse + " was not found");
+
+            developer.courses.ForEach(c => {
+                if(c.id == idCourse) throw new Exception("Course already added");
+            });
+
+            course.developers.Add(developer);
+            developer.courses.Add(course);
+
+            context.course.Update(course);
+            context.developer.Update(developer);
+
+            await context.SaveChangesAsync();
+
+            return "Course added successfully to Developer";
         }
 
         public async Task<string> rmCourse(long idUser, long idCourse)
@@ -122,16 +133,5 @@ namespace devnet_Csharp_backend.api.Services.developer
             await context.SaveChangesAsync();
             return "Course successfully deleted to Developer";
         }
-
-        public async Task<string> save(DeveloperRegisterDTO dto)
-        {
-            if(context.developer.Any(x => x.username == dto.username)) throw new Exception("Username already registered");
-
-            Developer dev = new Developer(dto.name, dto.username, dto.password);
-            await context.developer.AddAsync(dev);
-            await context.SaveChangesAsync();
-            return "Register was successfully";
-        }
-
     }
 }

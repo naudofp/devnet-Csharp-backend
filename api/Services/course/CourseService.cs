@@ -5,15 +5,15 @@ using System.Threading.Tasks;
 
 public interface CourseService
 {
-    List<CourseCardDTO> save(CourseRegisterDTO dto);
+    Task<List<CourseCardDTO>> save(CourseRegisterDTO dto);
 
     void update(CourseRegisterDTO dto, long id);
     
-    void delete(long id);
+    Task<string> delete(long id);
 
-    CourseDetailsDTO findById(long id);
+    Task<CourseDetailsDTO> findById(long id);
 
-    List<CourseCardDTO> findAll();
+    Task<List<CourseCardDTO>> findAll();
     
-    List<CourseCardDTO> findByName(string name);
+    Task<List<CourseCardDTO>> findByName(string name);
 }
