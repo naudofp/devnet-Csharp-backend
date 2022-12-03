@@ -14,5 +14,16 @@ public class Course
 	public int addScore { get; set; }
 
 	public List<Developer> developers { get; set; }
+
+	public Course(long id, string name, int addScore){
+		this.id = id;
+		this.name = name;
+		this.addScore = addScore;
+	}
+
+	public Course(string name, int addCourse){
+		this.name = name;
+		this.addScore = addCourse;
+	}
 }
 
