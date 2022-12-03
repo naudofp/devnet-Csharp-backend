@@ -16,4 +16,6 @@ public interface CourseService
     Task<List<CourseCardDTO>> findAll();
     
     Task<List<CourseCardDTO>> findByName(string name);
+
+    Task<List<Course>> addDefaultCourses();
 }

@@ -67,6 +67,34 @@ namespace devnet_Csharp_backend.api.Services.course
             return dtos;
         }
 
+        public async Task<List<Course>> addDefaultCourses()
+        {
+            string[] namesCourse = 
+				{
+				  "Python", "C#", "C++", "JavaScript",
+				  "Node.js", "Spring Boot", "Dart", "Flutter",
+				  "PHP", "Java", "Go", "SQL", "Ruby",
+				  "React", "HTML", "CSS", "React Native",
+				  "Angular", "Vue.js", "jQuery", "Svelte",
+				  "Bootstrap", "Bulma", "JavaScript",
+				  "TypeScript", "Sass", "UI/UX"
+				};
 
+            int[] scoreCourses = 
+				{
+				  310, 300, 300, 350, 220, 230,
+				  250, 180, 300, 360, 300, 150, 280,
+				  200, 50, 50, 100, 200, 180, 150, 
+				  150, 70, 40, 180, 180, 50, 250
+				};
+
+            for (int i = 0; i < namesCourse.Length; i++)
+            {
+                await context.AddAsync(new Course(i+1, namesCourse[i], scoreCourses[i]));
+            }
+
+            await context.SaveChangesAsync();
+            return await context.course.ToListAsync();
+        }
     }
 }

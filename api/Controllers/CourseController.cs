@@ -20,6 +20,11 @@ namespace devnet_Csharp_backend.api.Controllers
         public async Task<ActionResult<List<CourseCardDTO>>> post([FromBody] CourseRegisterDTO dto) {
             return Ok(await service.save(dto));
         }
+        
+        [HttpPost("default")]
+        public async Task<ActionResult<List<Course>>> postDefault() {
+            return Ok(await service.addDefaultCourses());
+        }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<string>> delete(long id){
