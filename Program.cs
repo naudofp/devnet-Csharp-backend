@@ -4,6 +4,7 @@ using devnet_Csharp_backend.api.Data;
 using devnet_Csharp_backend.api.Services.User;
 using devnet_Csharp_backend.api.Services.user;
 using devnet_Csharp_backend.api.Services.course;
+using devnet_Csharp_backend.api.Services.security;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<DeveloperService, DeveloperServiceImpl>();
 builder.Services.AddScoped<UserService, UserServiceImpl>();
 builder.Services.AddScoped<CourseService, CourseServiceImpl>();
+builder.Services.AddScoped<SecurityService, SecurityServiceImpl>();
 
 
 var app = builder.Build();

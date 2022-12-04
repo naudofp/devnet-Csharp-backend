@@ -1,4 +1,5 @@
 using devnet_Csharp_backend.api.Data;
+using devnet_Csharp_backend.api.Services.security;
 using Microsoft.EntityFrameworkCore;
 using Developer = devnet_Csharp_backend.api.Models.Developer;
 
@@ -7,17 +8,20 @@ namespace devnet_Csharp_backend.api.Services.developer
     public class DeveloperServiceImpl : DeveloperService
     {
         private readonly DevnetDBContext context;
+        private readonly SecurityService security;
 
-        public DeveloperServiceImpl(DevnetDBContext _context)
+        public DeveloperServiceImpl(DevnetDBContext context, SecurityService security)
         {
-            context = _context;
+            this.context = context;
+            this.security = security;
         }
 
 
         public async Task<string> save(DeveloperRegisterDTO dto)
         {
             if(context.developer.Any(x => x.username == dto.username)) throw new Exception("Username already registered");
-            Developer dev = new Developer(dto.name, dto.username, dto.password);
+            string hashPass = await security.encryptPassword(dto.password);
+            Developer dev = new Developer(dto.name, dto.username, hashPass);
 
             await context.developer.AddAsync(dev);
             await context.SaveChangesAsync();

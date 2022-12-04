@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "gL+lHWLF9DuhhH0xtqI8kziiO9F1aSfwNKVaZVJIkquvFugLSSWmJ27jODJGQ8I5poIqsctuNRpPmT2mEjd3Dg==",
+  "dgSpecHash": "pmN8Z/whPqmsa0pDpAL0aKQmDHTJHBL2NSqp0ULceGnSqzjISyFXz+XRldZvfGQeGcIgO2j4rOliFQ/iST7H2w==",
   "success": true,
   "projectFilePath": "/home/naudotech/Documentos/GitHub/devnet-Csharp-backend/devnet-Csharp-backend.csproj",
   "expectedPackageFiles": [
+    "/home/naudotech/.nuget/packages/bcrypt.net-core/1.6.0/bcrypt.net-core.1.6.0.nupkg.sha512",
     "/home/naudotech/.nuget/packages/humanizer.core/2.8.26/humanizer.core.2.8.26.nupkg.sha512",
     "/home/naudotech/.nuget/packages/microsoft.entityframeworkcore/6.0.7/microsoft.entityframeworkcore.6.0.7.nupkg.sha512",
     "/home/naudotech/.nuget/packages/microsoft.entityframeworkcore.abstractions/6.0.7/microsoft.entityframeworkcore.abstractions.6.0.7.nupkg.sha512",
